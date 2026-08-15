@@ -79,20 +79,6 @@ In `src/content.js`:
 | `REFERENCE_HEIGHT` | `1080` | Game resolution the crosshair is drawn for |
 | `HOVER_DELAY_MS` | `180` | Delay before firing the request on hover |
 
-## Releasing
-
-Tag a version and GitHub Actions builds the store-ready zip:
-
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-The workflow packages `src/` plus `LICENSE`, `THIRD-PARTY.md` and `README.md` into
-`faceit-crosshair-peek-v1.0.0.zip` and attaches it to a GitHub release. That zip is also
-what you upload to the Chrome Web Store. It checks that the tag matches
-`version` in `src/manifest.json` and fails loudly if they've drifted.
-
 ## License
 
 GPL-3.0-or-later. See [LICENSE](LICENSE).
