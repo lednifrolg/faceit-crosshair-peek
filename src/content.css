@@ -1,0 +1,120 @@
+.fcp-popup {
+  position: fixed;
+  z-index: 2147483000;
+  display: none;
+  min-width: 320px;
+  max-width: 420px;
+  padding: 10px;
+  border: 1px solid #2c2c2c;
+  border-radius: 10px;
+  background: #131313;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #e8e8e8;
+  pointer-events: auto;
+}
+
+.fcp-status {
+  padding: 10px 6px;
+  font-size: 12px;
+  color: #9a9a9a;
+}
+
+.fcp-team + .fcp-team {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #262626;
+}
+
+.fcp-team-head {
+  margin-bottom: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7d7d7d;
+}
+
+.fcp-player {
+  display: grid;
+  grid-template-columns: 96px 42px 64px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
+.fcp-player:hover {
+  background: #1e1e1e;
+}
+
+.fcp-self {
+  background: #1b2417;
+  box-shadow: inset 2px 0 0 #7ec850;
+}
+
+.fcp-name {
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fcp-kd {
+  font-size: 11px;
+  color: #8d8d8d;
+  font-variant-numeric: tabular-nums;
+}
+
+.fcp-xhair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 58px;
+  border-radius: 4px;
+  background:
+    linear-gradient(45deg, #232323 25%, transparent 25%) 0 0 / 10px 10px,
+    linear-gradient(-45deg, #232323 25%, transparent 25%) 0 5px / 10px 10px,
+    #1a1a1a;
+}
+
+.fcp-xhair canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.fcp-xhair-empty {
+  font-size: 10px;
+  color: #6a6a6a;
+}
+
+.fcp-code {
+  padding: 4px 6px;
+  border: 1px solid #2e2e2e;
+  border-radius: 5px;
+  background: #1c1c1c;
+  color: #c9c9c9;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fcp-code:hover:not(:disabled) {
+  border-color: #ff5500;
+  color: #fff;
+}
+
+.fcp-code:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.fcp-code.fcp-copied {
+  border-color: #7ec850;
+  color: #7ec850;
+}

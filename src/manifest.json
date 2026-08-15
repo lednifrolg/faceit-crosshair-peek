@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "FACEIT Crosshair Peek",
+  "version": "1.0.0",
+  "description": "Hover a match in a FACEIT CS2 match history to preview every player's crosshair.",
+  "content_scripts": [
+    {
+      "matches": ["https://www.faceit.com/*"],
+      "js": ["crosshairRenderer.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
