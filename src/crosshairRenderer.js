@@ -1,3 +1,16 @@
+/* CS2 crosshair share-code decoder and canvas renderer.
+ *
+ * Vendored from https://github.com/girlglock/cs2-crosshair
+ * (public/static/crosshairRenderer.js).
+ *
+ * Copyright (C) girlglock and contributors.
+ * Licensed under the GNU General Public License v3; see the upstream repository for the
+ * authoritative terms and LICENSE for the full text.
+ *
+ * Unmodified apart from this provenance header, which upstream ships without. This file's
+ * licence is why the whole extension is GPL-3; see THIRD-PARTY.md.
+ */
+
 /**
  * @typedef {Object} CrosshairSettings
  * @property {number} cl_crosshairalpha

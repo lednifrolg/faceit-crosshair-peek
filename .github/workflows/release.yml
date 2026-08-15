@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir -p dist/pkg
           cp -r src/. dist/pkg/
-          cp LICENSE dist/pkg/
+          cp LICENSE THIRD-PARTY.md README.md dist/pkg/
           cd dist/pkg
           zip -qr "../faceit-crosshair-peek-v${version}.zip" .
 

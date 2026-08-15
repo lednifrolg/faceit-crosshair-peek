@@ -1,7 +1,7 @@
 # FACEIT Crosshair Peek
 
-A Chrome extension that shows every player's CS2 crosshair when you hover a match
-in a FACEIT match history — rendered, not just the share code.
+A Chrome extension that shows every player's CS2 crosshair when you hover a match on a
+FACEIT profile — rendered, not just the share code.
 
 FACEIT already stores each player's crosshair per match, but it's buried: open the
 match room, switch to Stats, switch to the Advanced tab, and copy a code that means
@@ -15,8 +15,9 @@ away, for all ten players at once.
 1. Clone or download this repo.
 2. Chrome → `chrome://extensions` → toggle **Developer mode** on (top right).
 3. **Load unpacked** → select the `src/` folder.
-4. Open any profile's match history, e.g.
-   `https://www.faceit.com/en/players/donk666/cs2/history`, and hover a row.
+4. Open any profile, e.g. `https://www.faceit.com/en/players/donk666`, and hover one of
+   the recent matches — or the full history at
+   `https://www.faceit.com/en/players/donk666/cs2/history`.
 
 There is no build step. `src/` is the extension.
 
@@ -33,13 +34,25 @@ GET /api/match/v4/match/{matchId}
 ```
 
 `statsType=1` is the General tab and carries no crosshair field; `statsType=2` is the
-Advanced tab and does. Match IDs come straight out of the history DOM
-(`a[href*="/cs2/room/"]`), so a hover costs exactly one round trip. Responses are
-cached per match ID for the life of the page.
+Advanced tab and does. Match IDs come straight out of the page DOM
+(`a[href*="/cs2/room/"]`), which is the same row link on the overview and the history, so a
+hover costs exactly one round trip. Responses are cached per match ID for the life of the page.
 
 Decoding and drawing live in `src/crosshairRenderer.js`, which implements the real CS2
 pixel math (`yresScale = height / 480`, round-to-even bar sizing) rather than
 approximating it — so the preview matches what the player actually sees at 1080p.
+
+## Footprint
+
+The extension is scoped to `https://www.faceit.com/*` and cannot run on any other site —
+Chrome never injects it elsewhere. It has no background service worker, no storage, no
+permissions block and no telemetry, so an idle tab runs nothing.
+
+Within faceit.com it has to be injected on every page, because the site is an SPA and a
+narrower match pattern would never fire when you click through to a profile. It compensates
+at runtime: listeners are attached only while you are actually on a player profile and
+removed again when you leave, and the only network requests are the two made when you hover
+a match row. Responses are cached per match ID and die with the tab.
 
 ## Known quirks
 
@@ -50,6 +63,9 @@ approximating it — so the preview matches what the player actually sees at 108
   up" — it will silently break on roughly half of all matches.
 - **`cl_crosshairstyle` 0 and 1** are the legacy dynamic styles and can't be drawn
   statically; they render as "dynamic".
+- **Codes that fail to decode** — wrong shape, or a checksum mismatch — render as "invalid
+  code" rather than a crosshair. The underlying decoder silently substitutes its own defaults
+  in that case, and showing those would mean displaying a crosshair that isn't the player's.
 - **FACEIT's CSS classes are hashed** (`styles__MatchLink-sc-cf17d301-9`) and change every
   deploy. Nothing here depends on them — the only selector is the `href` shape.
 
@@ -72,8 +88,9 @@ git tag v1.0.0
 git push origin v1.0.0
 ```
 
-The workflow packages `src/` plus `LICENSE` into `faceit-crosshair-peek-v1.0.0.zip`
-and attaches it to a GitHub release. It also checks that the tag matches
+The workflow packages `src/` plus `LICENSE`, `THIRD-PARTY.md` and `README.md` into
+`faceit-crosshair-peek-v1.0.0.zip` and attaches it to a GitHub release. That zip is also
+what you upload to the Chrome Web Store. It checks that the tag matches
 `version` in `src/manifest.json` and fails loudly if they've drifted.
 
 ## License

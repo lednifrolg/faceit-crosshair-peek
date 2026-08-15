@@ -4,6 +4,9 @@
   display: none;
   min-width: 320px;
   max-width: 420px;
+  max-height: calc(100vh - 16px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 10px;
   border: 1px solid #2c2c2c;
   border-radius: 10px;
@@ -86,6 +89,8 @@
 
 .fcp-xhair-empty {
   font-size: 10px;
+  line-height: 1.2;
+  text-align: center;
   color: #6a6a6a;
 }
 

@@ -4,7 +4,9 @@
 
 - **Source:** https://github.com/girlglock/cs2-crosshair (`public/static/crosshairRenderer.js`)
 - **License:** GPL-3.0
-- **Modifications:** none — vendored verbatim.
+- **Modifications:** none to the code. A provenance header comment was prepended, because
+  upstream ships the file without any copyright or licence notice of its own and the release
+  zip needs to carry that attribution with it.
 
 This file decodes CS2 crosshair share codes and renders them to a canvas using the
 game's own pixel math. It is GPL-3, which is why this project is GPL-3: linking it
