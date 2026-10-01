@@ -146,6 +146,16 @@
   function crosshairNode(code) {
     if (!code) return emptyXhair("—");
 
+    /* The vendored renderer only knows the original layout and never reads the version
+     * byte. Pixel-era version 3/4 codes keep its CSGO-xxxxx shape and checksum, so it
+     * would accept them and draw a plausible but wrong crosshair. Route by version first. */
+    const decoded = PixelCrosshair.decode(code);
+    if (!decoded) return emptyXhair("invalid code", `couldn't decode ${code}`);
+    if (decoded.kind === "unsupported") {
+      return emptyXhair("new format", "this crosshair code version isn't supported yet");
+    }
+    if (decoded.kind === "pixel") return pixelCrosshairNode(decoded.settings);
+
     const settings = parseShareCode(code);
     if (!settings) return emptyXhair("invalid code", `couldn't decode ${code}`);
 
@@ -156,16 +166,33 @@
       return emptyXhair("dynamic", `crosshairstyle ${style} is not previewable`);
     }
 
-    const wrap = document.createElement("div");
-    wrap.className = "fcp-xhair";
     try {
-      const canvas = renderer.renderCrosshair(settings, REFERENCE_HEIGHT);
-      canvas.style.width = `${canvas.width * RENDER_SCALE}px`;
-      canvas.style.height = `${canvas.height * RENDER_SCALE}px`;
-      wrap.appendChild(canvas);
+      return canvasNode(renderer.renderCrosshair(settings, REFERENCE_HEIGHT));
     } catch {
       return emptyXhair("?", "render failed");
     }
+  }
+
+  function pixelCrosshairNode(settings) {
+    if (PixelCrosshair.isDynamic(settings)) {
+      return emptyXhair("dynamic", `crosshairstyle ${settings.style} follows weapon spread`);
+    }
+    if (!PixelCrosshair.isPreviewable(settings)) {
+      return emptyXhair("no preview", `crosshairstyle ${settings.style} is not previewable yet`);
+    }
+    try {
+      return canvasNode(PixelCrosshair.render(settings, REFERENCE_HEIGHT));
+    } catch {
+      return emptyXhair("?", "render failed");
+    }
+  }
+
+  function canvasNode(canvas) {
+    canvas.style.width = `${canvas.width * RENDER_SCALE}px`;
+    canvas.style.height = `${canvas.height * RENDER_SCALE}px`;
+    const wrap = document.createElement("div");
+    wrap.className = "fcp-xhair";
+    wrap.appendChild(canvas);
     return wrap;
   }
 

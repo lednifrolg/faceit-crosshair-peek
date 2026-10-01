@@ -63,6 +63,15 @@ a match row. Responses are cached per match ID and die with the tab.
   up" — it will silently break on roughly half of all matches.
 - **`cl_crosshairstyle` 0 and 1** are the legacy dynamic styles and can't be drawn
   statically; they render as "dynamic".
+- **CS2's Rush Hour update (2026-09-22) changed the share code twice.** Crosshairs went
+  pixel-based: version 3/4 codes still look like `CSGO-xxxxx-...` but use a different byte
+  layout, and since 2026-09-30 codes are `CS` plus 44 characters. The vendored decoder only
+  understands version 1 and never checks, so `src/pixelCrosshair.js` routes every code by
+  version first and decodes and draws the pixel-era ones itself. Its static styles (cross,
+  dot, circle, square) are drawn; the new dynamic styles render as "dynamic", and Static
+  Quadrant as "no preview". The gap is measured from the crosshair centre, so gap 0 is a
+  closed plus; that matches the game and procrosshairs.com's renderer pixel for pixel, but
+  it hasn't been checked against an unscaled in-game screenshot.
 - **Codes that fail to decode** — wrong shape, or a checksum mismatch — render as "invalid
   code" rather than a crosshair. The underlying decoder silently substitutes its own defaults
   in that case, and showing those would mean displaying a crosshair that isn't the player's.

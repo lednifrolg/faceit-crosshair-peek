@@ -75,6 +75,7 @@
   align-items: center;
   justify-content: center;
   height: 58px;
+  overflow: hidden; /* a large crosshair is cropped around its centre, never rescaled */
   border-radius: 4px;
   background:
     linear-gradient(45deg, #232323 25%, transparent 25%) 0 0 / 10px 10px,
@@ -83,6 +84,7 @@
 }
 
 .fcp-xhair canvas {
+  flex: none;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
